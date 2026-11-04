@@ -1,0 +1,23 @@
+<sb-layout-dashboard>
+   
+        <sb-dashboard-head title="Cadastro de Cores" [hideBreadcrumbs]="false"></sb-dashboard-head>
+        <div class="signup-content">
+            <div class="signup-form">
+                <form [formGroup]="colorForm" class="register-form" id="colorForm" (ngSubmit)="save()">
+    
+                    <div class="form-group">
+                        <label for="name">Nome:<span class="attention">*</span> </label>
+                        <input type="text" name="name" id="place" formControlName="name" required />
+                        <h6 *ngIf="errorName" class="attention"> {{messageName}}</h6>
+                    </div> 
+                   
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary mt-4">Salvar</button>
+                        <button type="button" (click)="clean()" class="btn btn-secondary mt-4 ml-2">Limpar</button>
+                        <button type="button" [routerLink]="['/color/color-search']"
+                            class="btn btn-secondary mt-4 ml-2">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</sb-layout-dashboard>

@@ -1,0 +1,46 @@
+@import 'styles/styles.scss';
+@import 'styles/form.scss';
+table {
+    width: 100%;
+}
+
+thead, tbody, tr, td, th { display: block; }
+
+tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+thead th  {
+    height: 40px;
+    text-align: center;
+}
+
+tbody {
+    height: 200px;
+    overflow-y: auto;
+}
+
+thead {
+    /* fallback */
+}
+
+
+tbody td, thead th {
+    width: 33%;
+    float: left;
+}
+.td-center{
+    text-align: center; 
+}
+.checked{
+    margin-left: 230px; 
+    width: 1.8em;
+    height: 1.8em;
+}
+tfoot th td{
+    width: 33%;
+    text-align: center;  
+}

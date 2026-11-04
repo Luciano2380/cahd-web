@@ -1,0 +1,65 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Pesquisa de Compras" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <sb-card>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="filter">Local da Compra:</label>
+                    <input type="text" name="filter" id="filter" [(ngModel)]="filter" name="filter" />
+                </div>
+                <div class="form-group">
+                    <label for="purchaseDate">Data da Compra: </label>
+                    <input type="date" name="purchaseDate" id="purchaseDate" [(ngModel)]="purchaseDate" />
+                </div>
+                <button type="button" (click)="search()" class="button-seach btn btn-primary"><i
+                        class="fas fa-search"></i>&nbsp;Pesquisar</button>
+            </form>
+        </div>
+    </sb-card>
+    <sb-card>
+        <div class="card-body">
+            <button type="button" routerLink="/purchase/purchase-create" class="btn btn-success">
+                <i class="fas fa-plus"></i>&nbsp;Nova Compra</button>
+
+            <table class="table table-striped">
+                <thead class="thd">
+                    <tr class="fir">
+                        <th scope="col">Local</th>
+                        <th scope="col">Descriçao</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Data</th>                      
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let p of purchases">
+                        <td>
+                            {{ p.place }}
+                        </td>
+                        <td>
+                            {{ p.description }}
+                        </td>
+                        <td>
+                            {{ p.value | currency:'BRL':'symbol':'0.2-2':'pt' }}
+                        </td>
+                        <td>
+                            {{ p.purchaseDate | date : 'dd/MM/yyyy' }}
+                        </td>                       
+                        <td>
+                            <a (click)="edit(p.id)"><span class="edit"><i class="fas fa-edit"></i></span></a>
+                            &nbsp;
+                            <a (click)="delete(p)"><span class="delete"><i class="fas fa-trash-alt"></i></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="pagination()">
+                </ngb-pagination>
+            </div>
+        </div>
+    </sb-card>
+
+</sb-layout-dashboard>

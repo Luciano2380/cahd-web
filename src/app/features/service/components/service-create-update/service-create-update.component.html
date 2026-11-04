@@ -1,0 +1,55 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Cadastro de Serviços" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <div class="signup-content">
+        <div class="signup-form">
+            <form [formGroup]="serviceForm" class="register-form" id="serviceForm" (ngSubmit)="save()">
+                <div class="form-group">
+                    <label for="name">Nome do Serviço <span class="attention">*</span> :</label>
+                    <input type="text" name="name" id="name" formControlName="name" required />
+                    <h6 *ngIf="errorName" class="attention"> {{messageName}}</h6>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" formControlName="menu" id="menu">
+                        <label class="label-checked" for="menu">
+                            Exibir o Serviço no Menu
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" formControlName="showClient"
+                            id="showClient">
+                        <label class="label-checked" for="showClient">
+                            Serviço Agendado
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" (change)="enableDinamicType($event)" formControlName="dynamicServiceType"
+                            id="dynamicServiceType">
+                        <label class="label-checked" for="dynamicServiceType">
+                            Complementos Descrito pelo Atendente
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="enableTypes">
+                    <label for="complements">Selecione os complementos dos serviço<span class="attention">*</span>
+                        :</label>
+                    <ng-select [items]="complements" bindLabel="name" bindValue="id" [multiple]="true"
+                        formControlName="chosenComplements">
+                    </ng-select>
+                    <h6 *ngIf="errorComplement" class="attention"> {{messageComplements}}</h6>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-4">Salvar</button>
+                <button type="button" (click)="clean()" class="btn btn-secondary mt-4 ml-2">Limpar</button>
+                <button type="button" [routerLink]="['/service-type/service-type-search']"
+                    class="btn btn-secondary mt-4 ml-2">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+</sb-layout-dashboard>

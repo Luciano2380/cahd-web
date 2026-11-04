@@ -1,0 +1,181 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Criar Serviço" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <sb-card>
+        <div class="card-header" style="height: 150px;">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h3 class="card-title"><i class="fas fa-tools"></i>&nbsp;&nbsp;{{service.name}}</h3>
+                    <h3 class="card-title"><i class="fas fa-car"></i>&nbsp;&nbsp;<span
+                            *ngIf="vehicle?.name!==undefined">{{vehicle?.name}}</span>&nbsp;&nbsp;<span
+                            *ngIf="color?.name!==undefined">{{color?.name}}</span></h3>
+                    <span *ngIf="servicePerformance!=null && servicePerformance.record!=null">
+                        <h3 class="card-title">{{servicePerformance.record}}</h3>
+                    </span>
+                </div>
+            </div>
+            <br />
+            <br />
+        </div>
+    </sb-card>
+    <sb-card>
+        <div class="card-body">
+            <span *ngIf="service.showClient">
+                <div class="form-group">
+                    <label for="clientName">Nome do Cliente <span class="attention">*</span> :</label>
+                    <input type="text" name="clientName" id="clientName" [(ngModel)]="clientName" required />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone do Cliente <span class="attention">*</span> :</label>
+                    <input type="text" mask="(00) 00000-0000" name="phone" id="phone" [(ngModel)]="phone"
+                        required />
+                </div>
+                <div class="form-group">
+                    <label for="licensePlate">Placa do Veículo <span class="attention">*</span> :</label>
+                    <input type="text" name="licensePlate" id="licensePlate" [(ngModel)]="licensePlate" required />
+                </div>
+                <div class="form-group">
+                    <label class="dat" for="expectedDeliveryDateTime">Data e Hora de Previsão:<span
+                            class="attention">*</span> </label>
+                    <input type="datetime-local" [(ngModel)]="expectedDeliveryDateTime" id="expectedDeliveryDateTime"
+                        required />
+                </div>
+                <div class="form-group">
+                    <label for="note">Observação: </label>
+                    <input type="text" [(ngModel)]="note" id="note" required />
+                </div>
+            </span>
+
+            <span *ngIf="!service.dynamicServiceType">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col"><i class="fas fa-shower"></i>&nbsp;Complemento</th>
+                            <th scope="col">Preço</th>
+                            <th scope="col">Adicionar</th>
+                        </tr>
+                    </thead>
+                    <tbody  style="height: 500px;">
+                        <tr *ngFor=" let priceSelected of pricesSelected">
+                            <td class="td-center">
+                                {{ priceSelected.serviceTypePrice.serviceTypeName | uppercase  }}
+                            </td>
+                            <td class="td-center">
+                                {{ priceSelected.serviceTypePrice.price | currency:'BRL':'symbol':'0.2-2':'pt' }}
+                            </td>
+                            <td class="td-center" *ngIf="priceSelected.selected">
+                                <input type="checkbox"
+                                    (change)="updateTotalPrice($event,priceSelected.serviceTypePrice)"  class="checked" id="chosen"
+                                    checked>
+                            </td>
+                            <td class="td-right" *ngIf="!priceSelected.selected">
+                                <input type="checkbox"
+                                    (change)="updateTotalPrice($event,priceSelected.serviceTypePrice)" class="checked" id="chosen">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-xl-3 col-md-3">
+                        <span></span>
+                    </div>
+                    <div class="col-xl-3 col-md-3">
+                        <span style="font-weight: bold ;">TOTAL</span>
+                    </div>
+                    <div class="col-xl-3 col-md-3">
+                        <span></span>
+                    </div>
+                    <div class="col-xl-3 col-md-3">
+                        <span style="font-weight: bold ;">
+                            {{ totalPrice | currency:'BRL':'symbol':'0.2-2':'pt' }}</span>
+                    </div>
+                </div>
+            </span>
+            <span *ngIf="service.dynamicServiceType">
+
+                <button type="button" (click)="open(content)" class="btn btn-success">
+                    <i class="fas fa-plus"></i>&nbsp;Adicionar
+                    Complementos</button>
+                <br />
+                <br />
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Complemento</th>
+                            <th scope="col">Preço</th>
+                            <th scope="col">Remover</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let type of dinamicTypes">
+                            <td class="td-center">
+                                {{type.description | uppercase }}
+                            </td>
+                            <td class="td-center">
+                                {{ type.price | currency:'BRL':'symbol':'0.2-2':'pt' }}
+                            </td>
+                            <td class="td-center">
+                                <a (click)="delete(type)"><span class="delete"><i
+                                            class="fas fa-trash-alt"></i></span></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-xl-3 col-md-3">
+                        <span></span>
+                    </div>
+                    <div class="col-xl-3 col-md-3">
+                        <span style="font-weight: bold ;">TOTAL</span>
+                    </div>
+                    <div class="col-xl-3 col-md-3">
+                        <span></span>
+                    </div>
+                    <div class="col-xl-3 col-md-3">
+                        <span style="font-weight: bold ;">
+                            {{ totalPriceDinamic | currency:'BRL':'symbol':'0.2-2':'pt' }}</span>
+                    </div>
+                </div>
+
+            </span>
+            <div class="form-submit">
+                <button type="submit" class="btn btn-primary mt-4" (click)="saveService(false)">Salvar</button>
+                <button type="button" (click)="saveService(true)" class="btn btn-secondary mt-4 ml-2">Salvar e
+                    Imprimir</button>
+                <button type="button" [routerLink]="['/service-performed/show-service-performed']"
+                    class="btn btn-secondary mt-4 ml-2">Cancelar</button>
+            </div>
+        </div>
+    </sb-card>
+    <ng-template #content let-modal>
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Descreva o Complemento e seu preço</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label for="name">Descrição do Complemento <span class="attention">*</span> :</label>
+                    <input type="text" name="name" id="name" [(ngModel)]="descriptionDinamic" required />
+                    <h6 *ngIf="errorDescription" class="attention"> {{messageDescription}}</h6>
+                </div>
+                <div class="form-group">
+                    <label for="address">Preço <span class="attention">*</span> :</label>
+                    <input type="text" name="price" id="price" currencyMask
+                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" [(ngModel)]="priceDinamic"
+                        required />
+                    <h6 *ngIf="errorPrice" class="attention"> {{messagePrice}}</h6>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="addDinamicType()">Adicionar</button>
+        </div>
+
+    </ng-template>
+
+
+</sb-layout-dashboard>

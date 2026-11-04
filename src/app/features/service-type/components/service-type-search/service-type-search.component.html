@@ -1,0 +1,58 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Pesquisa de Complementos" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <sb-card>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input type="text" name="name" id="name" [(ngModel)]="name" name="name" />
+                </div>
+                <button type="button" (click)="search()" class="button-seach btn btn-primary"><i
+                        class="fas fa-search"></i>&nbsp;Pesquisar</button>
+            </form>
+        </div>
+    </sb-card>
+    <sb-card>
+        <div class="card-body">
+            <button type="button" routerLink="/service-type/service-type-create" class="btn btn-success">
+                <i class="fas fa-plus"></i>&nbsp;Criar Novo Complemento</button>
+            <br />
+            <br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Tamanho/Preço</th>
+                        <th scope="col">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let serviceType of servicesTypes">
+                        <td>
+                            {{ serviceType.name | uppercase  }}
+                        </td>
+                        <td>
+                            <span *ngFor="let price of serviceType.prices">
+                                {{price.sizeName | uppercase }} / {{ price.price | currency:'BRL':'symbol':'0.2-2':'pt'}} <br/> 
+                            </span>                                                      
+                        </td>
+                        <td>
+                            <a (click)="edit(serviceType.id)"><span class="edit"><i class="fas fa-edit"></i></span></a>
+                            &nbsp;
+                            <a (click)="deleteServiceType(serviceType)"><span class="delete"><i
+                                        class="fas fa-trash-alt"></i></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="pagination()">
+                </ngb-pagination>
+            </div>
+        </div>
+    </sb-card>
+
+
+</sb-layout-dashboard>

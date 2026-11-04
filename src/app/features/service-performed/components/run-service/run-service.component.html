@@ -1,0 +1,43 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Escolha o Veículo" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <div class="signup-content">
+        <div class="signup-form">
+            <form [formGroup]="executeForm" class="register-form" id="executeForm">
+                <div class="form-group">
+                    <label for="name">Serviço Escolhido:<h5>&nbsp;&nbsp;{{service.name}}</h5></label>
+                </div>
+                <div class="form-group">
+                    <label for="vehicle">Veículo<span class="attention">*</span>
+                        :</label>
+                    <ng-select bindLabel="name" (change)="getSize()" formControlName="vehicle">
+                        <ng-option [value]="item" *ngFor="let item of vehicles">
+                            {{item.name}}
+                        </ng-option>
+                    </ng-select>
+                    <h6 *ngIf="errorVehicle" class="attention"> {{messageVehicle}}</h6>
+                </div>
+                <div class="form-group">
+                    <label for="color">Cor do Veículo<span class="attention">*</span>
+                        :</label>
+                    <ng-select bindLabel="name" formControlName="color">
+                        <ng-option [value]="item" *ngFor="let item of colors">
+                            {{item.name}}
+                        </ng-option>
+                    </ng-select>
+                    <h6 *ngIf="errorColor" class="attention"> {{messageColor}}</h6>
+                </div>
+                <div class="form-group">
+                    <label for="size">Tamanho do Veículo<span class="attention">*</span>
+                        :</label>
+                    <ng-select [items]="sizeVehicle" bindLabel="name" bindValue="id" formControlName="size">
+                    </ng-select>
+                    <h6 *ngIf="errorSize" class="attention"> {{messageSize}}</h6>
+                </div>
+                <div class="form-submit">
+                    <button type="button" (click)="execute()" class="btn btn-primary mt-4">Executar</button>
+                    <button type="button" (click)="clean()" class="btn btn-secondary mt-4 ml-2">Limpar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</sb-layout-dashboard>

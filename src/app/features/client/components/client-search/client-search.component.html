@@ -1,0 +1,60 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Pesquisa de Clientes" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <sb-card>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input type="text" name="name" id="name" [(ngModel)]="name" name="name" />
+                </div>
+                <button type="button" (click)="search()" class="button-seach btn btn-primary"><i
+                        class="fas fa-search"></i>&nbsp;Pesquisar</button>
+            </form>
+        </div>
+    </sb-card>
+    <sb-card>
+        <div class="card-body">
+            <button type="button" routerLink="/client/client-create" class="btn btn-success">
+                <i class="fas fa-plus"></i>&nbsp;Criar Novo Cliente</button>
+            <br />
+            <br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Tipo de Pessoa</th> 
+                        <th scope="col">Telefone</th>                             
+                        <th scope="col">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let client of clients">
+                        <td>
+                            {{ client.name | uppercase  }}
+                        </td>   
+                        <td>
+                            {{ client.personType | uppercase  }}
+                        </td>  
+                        <td>
+                            {{ client.phone | mask: '(00) 00000-0000' }}
+                        </td>                     
+                        <td>
+                            <a (click)="edit(client.id)"><span class="edit"><i class="fas fa-edit"></i></span></a>
+                            &nbsp;
+                            <a (click)="deleteClient(client)"><span class="delete"><i
+                                        class="fas fa-trash-alt"></i></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="pagination()">
+                </ngb-pagination>
+            </div>
+        </div>
+    </sb-card>
+
+
+</sb-layout-dashboard>

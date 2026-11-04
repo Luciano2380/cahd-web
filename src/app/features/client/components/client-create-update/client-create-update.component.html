@@ -1,0 +1,134 @@
+<sb-layout-dashboard>
+  <sb-dashboard-head title="Cadastro de Clientes" [hideBreadcrumbs]="false"></sb-dashboard-head>
+  <div class="signup-content">
+    <div class="signup-form">
+      <form [formGroup]="clientForm" class="register-form" id="clientForm" (ngSubmit)="save()">
+
+        <div class="form-group">
+          <label for="name">Nome Completo <span class="attention">*</span> :</label>
+          <input type="text" name="name" id="name" formControlName="name" required />
+          <h6 *ngIf="errorName" class="attention"> {{messageName}}</h6>
+        </div>
+        <div class="form-group">
+          <label for="phone">Telefones <span class="attention">*</span> :</label>
+          <input type="text" name="telelefone"
+            mask="(00) 00000-0000" formControlName="phone"
+            id="telelefone" />
+          <h6 *ngIf="errorPhone" class="attention"> {{messagePhone}}</h6>
+        </div>
+        <div class="form-group">
+          <label for="address">E-mail :</label>
+          <input type="email" name="email" id="email" formControlName="email" required />
+        </div>
+        <div class="form-group">
+          <label for="personType">Tipo de Pessoa
+            :</label>
+          <ng-select bindLabel="name" (change)="getPersonTypes()" formControlName="personType">
+            <ng-option [value]="item.id" *ngFor="let item of personTypes">
+              {{item.name}}
+            </ng-option>
+          </ng-select>         
+        </div>
+        <div class="form-group" *ngIf="isCpf">
+          <label for="cpfCnpj">CPF:</label>
+          <input type="text" name="cpf" mask="000.000.000-00" formControlName="cpf" id="cpf" />
+        </div>
+        <div class="form-group" *ngIf="isCnpj">
+          <label for="cpfCnpj">CNPJ:</label>
+          <input type="text" name="cnpj" mask="00.000.000/0000-00" formControlName="cnpj" id="cnpj" />
+        </div>
+        <div class="form-group" *ngIf="isCpf">
+          <label for="Sexo">Sexo
+            :</label>
+          <ng-select bindLabel="name" formControlName="gender">
+            <ng-option [value]="item.id" *ngFor="let item of genders">
+              {{item.name}}
+            </ng-option>
+          </ng-select>
+          <h6 *ngIf="errorVehicle" class="attention"> {{messageVehicle}}</h6>
+        </div>
+
+        <!--Tabela-->
+        <div class="row justify-content-center">
+          <div class="col-md-6 text-center mb-5">
+            <button type="button" class="btn btn-primary" (click)="open(content)">Adicionar Veiculos</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-wrap">
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Placa</th>
+                    <th>Veículo</th>
+                    <th>Cor</th>
+                    <th>Excluir</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="alert" role="alert" *ngFor="let clientVehicle of clientVehicles">
+                    <th scope="row">{{clientVehicle.licensePlate}}</th>
+                    <td>{{clientVehicle.vehicle.name}}</td>
+                    <td>{{clientVehicle.color.name}}</td>
+                    <td>                      
+                      <a (click)="deleteClientVehicle(clientVehicle)"><span class="delete"><i
+                        class="fas fa-trash-alt"></i></span></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn btn-primary mt-4">Salvar</button>
+          <button type="button" (click)="clean()" class="btn btn-secondary mt-4 ml-2">Limpar</button>
+          <button type="button" [routerLink]="['/client/client-search']"
+            class="btn btn-secondary mt-4 ml-2">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Veiculos do Cliente</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="licensePlate">Placa <span class="attention">*</span> :</label>
+          <input type="text" name="licensePlate" id="licensePlate" [(ngModel)]="licensePlate" required />
+          <h6 *ngIf="errorLicensePlate" class="attention"> {{messageLicensePlate}}</h6>
+        </div>
+        <div class="form-group">
+          <label for="vehicle">Veículo<span class="attention">*</span>
+            :</label>
+          <ng-select [ngModelOptions]="{standalone: true}" [(ngModel)]="vehicle">
+            <ng-option [value]="item" *ngFor="let item of vehicles">
+              {{item.name}}
+            </ng-option>
+          </ng-select>
+          <h6 *ngIf="errorVehicle" class="attention"> {{messageVehicle}}</h6>
+        </div>
+        <div class="form-group">
+          <label for="color">Cor do Veículo<span class="attention">*</span>
+            :</label>
+          <ng-select [ngModelOptions]="{standalone: true}" [(ngModel)]="color">
+            <ng-option [value]="item" *ngFor="let item of colors">
+              {{item.name}}
+            </ng-option>
+          </ng-select>
+          <h6 *ngIf="errorColor" class="attention"> {{messageColor}}</h6>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="addVehicles()">Adicionar</button>
+    </div>
+  </ng-template>
+</sb-layout-dashboard>

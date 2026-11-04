@@ -1,0 +1,13 @@
+nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
+    a.navbar-brand(routerLink='/service-performed/show-service-performed')
+        | Centro Automotivo HD
+    button#sidebarToggle.btn.btn-link.btn-sm.order-1.order-lg-0(
+        data-cy='topNavToggleSideNav',
+        (click)='toggleSideNav()'
+    )
+        fa-icon([icon]='["fas", "bars"]')
+    // Navbar Search
+    form.d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0        
+    // Navbar
+    ul.navbar-nav.ml-auto.ml-md-0
+        sb-top-nav-user

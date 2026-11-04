@@ -1,0 +1,55 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Pesquisa Preço do Complementos por Veículo" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <sb-card>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="service">Veículo</label>                    
+                    <ng-select bindLabel="name" [(ngModel)]="idVehicle" [ngModelOptions]="{standalone: true}" >
+                        <ng-option [value]="item.id" *ngFor="let item of vehicles">
+                            {{item.name}}
+                        </ng-option>
+                    </ng-select>
+                    <h6 *ngIf="errorVehicle" class="attention"> {{messageVehicle}}</h6>
+                </div>               
+                <button type="button" (click)="search()" class="button-seach btn btn-primary"><i
+                        class="fas fa-search"></i>&nbsp;Pesquisar</button>
+            </form>
+        </div>
+    </sb-card>
+    <sb-card>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome do Complemento</th>
+                        <th scope="col">Tamanho do Veículo</th>
+                        <th scope="col">Preço do Complemento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let price of prices">
+                        <td>
+                            {{ price.serviceTypeName | uppercase  }}
+                        </td>
+                        <td>
+                            {{ price.sizeName | uppercase  }}
+                        </td>
+                        <td>
+                            {{ price.price | currency:'BRL':'symbol':'0.2-2':'pt' }}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="pagination()">
+                </ngb-pagination>
+            </div>
+        </div>
+    </sb-card>
+
+
+</sb-layout-dashboard>

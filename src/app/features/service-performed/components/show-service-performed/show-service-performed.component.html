@@ -1,0 +1,12 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Executar Serviço" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <div class="row">
+        <div class="col-xl-3 col-md-6" *ngFor="let service of services">
+            <sb-card-view-details background="bg-primary">
+                <div class="card-body"> <a class="large text-white stretched-link" (click)="redirect(service)"><i
+                            class="fas fa-tools"></i>&nbsp;&nbsp;{{service.name}}&nbsp;&nbsp;<i
+                            *ngIf="service.showClient" class="fas fa-calendar-alt"></i></a></div>
+            </sb-card-view-details>
+        </div>
+    </div>
+</sb-layout-dashboard>

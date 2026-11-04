@@ -1,0 +1,116 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Exibir Serviços Executados" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <sb-card>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="service">Serviço:</label>                    
+                    <ng-select bindLabel="name" [(ngModel)]="idService" [ngModelOptions]="{standalone: true}" >
+                        <ng-option [value]="item.id" *ngFor="let item of services">
+                            {{item.name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Registro :</label>
+                    <input type="text" name="record" id="record" [(ngModel)]="record" />
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-md-6">
+                        <div class="form-group">
+                            <label for="startDate">Data da Inicio: </label>
+                            <input type="date" name="startDate" id="startDate" [(ngModel)]="startDate" />
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6">
+                        <div class="form-group">
+                            <label for="endDate">Data de Fim: </label>
+                            <input type="date" name="endDate" id="endDate" [(ngModel)]="endDate" />
+
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="search()" class="button-seach btn btn-primary"><i
+                        class="fas fa-search"></i>&nbsp;Pesquisar</button>
+            </form>
+        </div>
+    </sb-card>
+    <sb-card>
+        <div class="card-body">
+            <button type="button" routerLink="/service-performed/show-service-performed" class="btn btn-success">
+                <i class="fas fa-plus"></i>&nbsp;Executar Serviço</button>
+            <br />
+            <br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Registro</th>
+                        <th scope="col">Cliente Agendado</th>
+                        <th scope="col">Serviço</th>
+                        <th scope="col">Veiculo</th>
+                        <th scope="col">Complementos/Preço</th>
+                        <th scope="col">Data de Criação</th>
+                        <th scope="col">Preço Total</th>
+                        <th scope="col">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let performance of servicesPerformances">
+                        <td>
+                            {{ performance.record }}
+                        </td>
+                        <td>
+                            {{ performance.clientName | uppercase }}<br/>
+                            {{ performance.clientPhone | mask: '(00) 00000-0000' }}<br/>                            
+                            {{ performance.expectedDateTime | date : 'dd/MM/yyyy HH:mm'}}
+                        </td>
+                        <td>
+                            {{ performance.service.name | uppercase }}
+                        </td>
+                        <td *ngIf="performance.clientLicensePlate!==null">
+                            {{ performance.vehicle.name | uppercase }} {{ performance.color.name | uppercase }}<br/>
+                            {{ performance.clientLicensePlate | uppercase }}
+                        </td>
+                        <td *ngIf="performance.clientLicensePlate===null">
+                            {{ performance.vehicle.name | uppercase }} {{ performance.color.name | uppercase }}
+                           
+                        </td>
+                        <td *ngIf="performance?.serviceTypePrices?.length > 0">
+                            <span *ngFor="let price of performance.serviceTypePrices">
+                                {{price.serviceTypeName}} /
+                                {{ price.price | currency:'BRL':'symbol':'0.2-2':'pt'}}<br />
+                            </span>
+                        </td>
+                        <td *ngIf="performance?.dynamicServiceTypes?.length > 0">
+                            <span *ngFor="let dinamic of performance.dynamicServiceTypes">
+                                {{dinamic.description}} / {{ dinamic.price | currency:'BRL':'symbol':'0.2-2':'pt'}}<br />
+                            </span>
+                        </td>
+                        <td>
+                            {{ performance.createdAt | date : 'dd/MM/yyyy HH:mm' }}
+                        </td>
+                        <td>
+                            {{ performance.totalPrice | currency:'BRL':'symbol':'0.2-2':'pt'}}
+                        </td>
+                        <td>
+                            <a (click)="edit(performance.id)"><span class="edit"><i class="fas fa-edit"></i></span></a>
+                            &nbsp;&nbsp;
+                            <a (click)="print(performance.id)"><span class="print"><i class="fas fa-print"></i></span></a>
+                            
+                            <a (click)="delete(performance)"><span class="delete"><i
+                                        class="fas fa-trash-alt"></i></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="pagination()">
+                </ngb-pagination>
+            </div>
+        </div>
+    </sb-card>
+
+
+</sb-layout-dashboard>

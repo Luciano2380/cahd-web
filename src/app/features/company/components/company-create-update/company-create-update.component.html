@@ -1,0 +1,95 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Cadastro de Compra" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <div class="signup-content">
+        <div class="signup-form">
+            <form [formGroup]="companyForm" class="register-form" id="companyForm" (ngSubmit)="save()">
+
+                <div class="form-group">
+                    <label for="name">Nome da Empresa:<span class="attention">*</span> </label>
+                    <input type="text" name="name" id="name" formControlName="name" required />
+                    <h6 *ngIf="errorName" class="attention"> {{messageName}}</h6>
+                </div>
+
+                <div class="form-group">
+                    <label for="cnpj">CNPJ:<span class="attention">*</span> </label>
+                    <input type="text" name="cnpj" mask="00.000.000/0000-00" formControlName="cnpj" id="cnpj" />
+                    <h6 *ngIf="errorCNPJ" class="attention"> {{messageCNPJ}}</h6>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Endereço:<span class="attention">*</span> </label>
+                    <input type="text" name="address" id="end" formControlName="address" required />
+                    <h6 *ngIf="errorAddress" class="attention"> {{messageAddress}}</h6>
+                </div>
+
+                <div class="form-group">
+                    <label for="neighborhood">Bairro:<span class="attention">*</span> </label>
+                    <input type="text" name="neighborhood" id="neighborhood" formControlName="neighborhood" required />
+                    <h6 *ngIf="errorNeighborhood" class="attention"> {{messageNeighborhood}}</h6>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">Cidade:<span class="attention">*</span> </label>
+                    <input type="text" name="city" id="city" formControlName="city" required />
+                    <h6 *ngIf="errorCity" class="attention"> {{messageCity}}</h6>
+                </div>
+
+                <div class="form-group">
+                    <label for="state">Estado:<span class="attention">*</span> </label>
+                    <input type="text" name="state" id="state" formControlName="state" required />
+                    <h6 *ngIf="errorState" class="attention"> {{messageState}}</h6>
+                </div>
+
+                <div class="form-group">
+                    <label for="number">Número:<span class="attention">*</span> </label>
+                    <input type="text" name="number" id="number" formControlName="number" required />
+                    <h6 *ngIf="errorNumber" class="attention"> {{messageNumber}}</h6>
+                </div>
+
+                <div class="form-group">
+                    <label for="complement">Complemento: </label>
+                    <input type="text" name="complement" id="complement" formControlName="complement" required />                    
+                </div>
+
+                <div class="form-group">
+                    <label for="zipCode">CEP:<span class="attention">*</span> </label>
+                    <input type="text" mask="00000-000" name="zipCode" id="zipCode" formControlName="zipCode" required />
+                    <h6 *ngIf="errorZipCode" class="attention"> {{messageZipCode}}</h6>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Celular: </label>
+                    <input type="text" name="mobile"
+                    mask="(00) 00000-0000" formControlName="mobile"
+                    id="mobile" />                  
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefone Fixo: </label>
+                    <input type="text" name="phone"
+                    mask="(00) 0000-0000" formControlName="phone"
+                    id="mobile" />                 
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" formControlName="isDefault"
+                            id="isDefault">
+                        <label class="label-checked" for="showClient">
+                            Padrão
+                        </label>                      
+                    </div>
+                </div>
+
+    
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary mt-4">Salvar</button>
+                    <button type="button" (click)="clean()" class="btn btn-secondary mt-4 ml-2">Limpar</button>
+                    <button type="button" [routerLink]="['/company/company-search']"
+                        class="btn btn-secondary mt-4 ml-2">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</sb-layout-dashboard>
